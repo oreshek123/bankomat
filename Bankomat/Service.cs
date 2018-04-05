@@ -37,5 +37,38 @@ namespace Bankomat
             
 
         }
+
+        public static void AddMoneyToAccount(string account, string sum, ref Client client)
+        {
+
+            foreach (Account item in client.accounts)
+            {
+                if (item.AccountNumber == account)
+                {
+                    item.Balance += Int32.Parse(sum);
+                }
+            }
+        }
+        public static bool RemoveMoneyFromAccount(string account, string sum, ref Client client)
+        {
+            bool isValidSum = true;
+            foreach (Account item in client.accounts)
+            {
+                if (item.AccountNumber == account)
+                {
+                    if (item.Balance > Int32.Parse(sum))
+                    item.Balance -= Int32.Parse(sum);
+                    else
+                    {
+                        
+                        isValidSum = false;
+                    }
+                }
+            }
+
+            return isValidSum;
+        }
+
+
     }
 }

@@ -22,7 +22,6 @@ namespace Bankomat
                     Password = "123"
                 };
                 Service.createClient(ref client1);
-                int i = 0;
                 while (!client1.IsBlocked)
                 {
                     Console.Clear();
@@ -48,14 +47,13 @@ namespace Bankomat
                     }
                     else
                     {
-                        int choice = 0;
                         Console.Clear();
-                        while (true)
+                        do
                         {
-                           
-                            Console.WriteLine("1) список счетов\n2) создать счет");
-                           
-                            Int32.TryParse(Console.ReadLine(), out choice);
+
+                            Console.WriteLine("1) список счетов\n2) создать счет\n3) пополнение счета\n4) снять деньги со счёта\n5) выход");
+
+                            Int32.TryParse(Console.ReadLine(), out var choice);
                             Console.Clear();
                             switch (choice)
                             {
@@ -67,11 +65,23 @@ namespace Bankomat
                                             client1.PrintAccountInfo();
                                         }
                                     }
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter \t2) выход");
+                                    Int32.TryParse(Console.ReadLine(), out int result);
+                                    if (result == 2)
+                                    {
+                                        return;
+                                    } 
                                     break;
                                 case 2:
+                                {
+                                    client1.accounts?.Add(Service.createAccounts());
+                                    Console.WriteLine("Счет добавлен успешно");
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                    Int32.TryParse(Console.ReadLine(), out result);
+                                     if (result == 2)
                                     {
-                                        client1.accounts.Add(Service.createAccounts());
-                                        Console.WriteLine("Счет добавлен успешно");
+                                        return;
+                                    }
                                     }
                                     break;
                                 case 3:
@@ -80,15 +90,48 @@ namespace Bankomat
                                         string accountNumber = Console.ReadLine();
                                         Console.WriteLine("Введите сумму");
                                         string accountSum = Console.ReadLine();
-
+                                        Service.AddMoneyToAccount(accountNumber,accountSum,ref client1);
+                                        Console.WriteLine($"Счет {accountNumber} пополнен на сумму {accountSum} успешно");
+                                        Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                        Int32.TryParse(Console.ReadLine(), out result);
+                                        if (result == 2)
+                                        {
+                                            return;
+                                        }
                                     }
                                     break;
+                                case 4:
+                                {
+                                        Console.WriteLine("Введите номер счета :");
+                                        string accountNumber = Console.ReadLine();
+                                        Console.WriteLine("Введите сумму");
+                                        string accountSum = Console.ReadLine();
+                                        bool isValid = Service.RemoveMoneyFromAccount(accountNumber, accountSum, ref client1);
+
+                                    Console.WriteLine(isValid == false
+                                        ? "Сумма на счете не достаточна для списания"
+                                        : $"Сумма {accountSum} успешно снята со счета {accountNumber}");
+
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                    Int32.TryParse(Console.ReadLine(), out result);
+                                    if (result == 2)
+                                    {
+                                        return;
+                                    }
+                                    }
+                                    break;
+                                case 5:
+                                {
+                                    return;
+                                }
+                                
                                 default:
                                     return;
                             }
-                            Console.ReadLine();
+                            //Console.ReadLine();
                             Console.Clear();
                         }
+                        while (true);
                     }
                 }
                 
