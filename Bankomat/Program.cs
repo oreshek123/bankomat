@@ -65,7 +65,7 @@ namespace Bankomat
                                             client1.PrintAccountInfo();
                                         }
                                     }
-                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter \t2) выход");
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите любую клавишу \t2) выход");
                                     Int32.TryParse(Console.ReadLine(), out int result);
                                     if (result == 2)
                                     {
@@ -76,7 +76,7 @@ namespace Bankomat
                                 {
                                     client1.accounts?.Add(Service.createAccounts());
                                     Console.WriteLine("Счет добавлен успешно");
-                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите любую клавишу\t2) выход");
                                     Int32.TryParse(Console.ReadLine(), out result);
                                      if (result == 2)
                                     {
@@ -92,7 +92,7 @@ namespace Bankomat
                                         string accountSum = Console.ReadLine();
                                         Service.AddMoneyToAccount(accountNumber,accountSum,ref client1);
                                         Console.WriteLine($"Счет {accountNumber} пополнен на сумму {accountSum} успешно");
-                                        Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                        Console.WriteLine("\n\nдля выхода в меню нажмите любую клавишу\t2) выход");
                                         Int32.TryParse(Console.ReadLine(), out result);
                                         if (result == 2)
                                         {
@@ -108,11 +108,17 @@ namespace Bankomat
                                         string accountSum = Console.ReadLine();
                                         bool isValid = Service.RemoveMoneyFromAccount(accountNumber, accountSum, ref client1);
 
-                                    Console.WriteLine(isValid == false
-                                        ? "Сумма на счете не достаточна для списания"
-                                        : $"Сумма {accountSum} успешно снята со счета {accountNumber}");
+                                    if (isValid == false)
+                                    {
+                                        Console.WriteLine("Сумма на счете не достаточна для списания");
+                                        System.Threading.Thread.Sleep(1000);
+                                        break;
+                                    }
+                                    else
+                                    Console.WriteLine($"Сумма {accountSum} успешно снята со счета {accountNumber}");
+                                    
 
-                                    Console.WriteLine("\n\nдля выхода в меню нажмите Enter\t2) выход");
+                                    Console.WriteLine("\n\nдля выхода в меню нажмите любую клавишу\t2) выход");
                                     Int32.TryParse(Console.ReadLine(), out result);
                                     if (result == 2)
                                     {
